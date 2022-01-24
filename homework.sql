@@ -16,7 +16,10 @@ select * from emp;
 
 --     Q1. 사원 테이블(EMP)에서 가장 최근에 입사한 사원명을 출력 하는 
 --           SQL문을 작성 하세요?
-select ename from emp where hiredate = (select max(hiredate) from emp);
+select ename from emp where hiredate = (select max(hiredate) from emp); -- 서브쿼리를 이용해서 풀이
 --     Q2. 사원 테이블(EMP)에서 최대 급여를 받는 사원명과 최대급여
 --           금액을 출력하는 SQL문을 작성 하세요?
-select ename, sal from emp where sal = (select max(sal) from emp);
+select ename, sal from emp where sal = (select max(sal) from emp);  -- 서브쿼리를 이용해서 풀이
+
+-- 서브쿼리 : 하나의 select문장의 절 안에 포함된 또 하나의 select 문장이다.
+-- 서브쿼리는 비교 연산자(=,>,>=,<,<=,<>)의 오른쪽에 기술해야 하고 반드시 괄호로 둘러쌓아야 한다.
