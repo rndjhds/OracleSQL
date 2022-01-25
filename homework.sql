@@ -23,3 +23,16 @@ select ename, sal from emp where sal = (select max(sal) from emp);  -- 서브쿼
 
 -- 서브쿼리 : 하나의 select문장의 절 안에 포함된 또 하나의 select 문장이다.
 -- 서브쿼리는 비교 연산자(=,>,>=,<,<=,<>)의 오른쪽에 기술해야 하고 반드시 괄호로 둘러쌓아야 한다.
+
+
+--Q1. 직급이 MANAGER인 사원의 이름, 부서명을 출력하는 SQL문을
+--             작성 하세요? (JOIN을 사용하여 처리)
+select ename, dname from emp, dept where emp.deptno = dept.deptno and job = 'MANAGER';
+select ename, dname from emp inner join dept on emp.deptno = dept.deptno where job = 'MANAGER';
+select ename, dname from emp inner join dept using(deptno) where job = 'MANAGER';
+select ename, dname from emp natural join dept where job = 'MANAGER';
+--Q2. 매니저가 KING 인 사원들의 이름과 직급을 출력하는 SQL문 작성?
+select ename, job, mgr from emp where mgr = (select empno from emp where ename = 'KING');
+--Q3. SCOTT과 동일한 근무지에서 근무하는 사원의 이름을 출력하는 SQL문 작성?
+select ename, emp.deptno, dname from emp inner join dept on emp.deptno = dept.deptno where emp.deptno = 20;
+
