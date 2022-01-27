@@ -269,3 +269,43 @@ select * from emp02;
 
 delete from emp02 where deptno = 
     (select deptno from dept where dname = 'SALES');
+ -------------------------------------------------------------------------------
+--* 테이블 구조가 동일한 두 테이블의 MERGE 연습
+
+--  MERGE : 구조가 같은 2개의 테이블을 하나의 테이블로 합치는 기능.
+--  MERGE명령을 수행할때 기존에 존재하는 행(ROW)이 있으면 새로운     
+--  값으로 UPDATE되고, 존재하지 않으면 새로운 행(ROW)으로 추가된다.
+
+drop table emp01 purge;
+drop table emp02 purge;
+select * from emp01;
+select * from emp02;
+
+create table emp01 as select * from emp;
+
+create table emp02 as select * from emp where job='MANAGER';
+
+update emp02 set job='Test';
+
+insert into emp02 values(8000, 'ahn', 'top', 7566, '2018/02/22',1200, 10, 20);
+
+select * from emp02;
+
+merge into emp01
+	using emp02
+	on(emp01.empno = emp02.empno)
+	when matched then
+	     update set emp01.ename = emp02.ename,
+			emp01.job = emp02.job,
+			emp01.mgr = emp02.mgr,
+			emp01.hiredate = emp02.hiredate,
+			emp01.sal = emp02.sal,
+			emp01.comm = emp02.comm,
+			emp01.deptno = emp02.deptno
+	when not matched then
+	     insert values(emp02.empno, emp02.ename, emp02.job, 		         	         
+		          emp02.mgr,emp02.hiredate, 
+		         emp02.sal, emp02.comm,emp02.deptno);
+
+select * from emp01; -- 합병된 결과 확인 
+
